@@ -1,0 +1,12 @@
+spring:
+  config:
+    activate:
+      on-profile: local
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/dietcuration
+    username: dietcuration
+    password: 1234
+  jpa:
+    hibernate:
+      ddl-auto: create
