@@ -4,9 +4,13 @@ spring:
       on-profile: local
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://localhost:3306/dietcuration
-    username: dietcuration
+    url: jdbc:mariadb://mariadb:3306/eat_it_all
+    username: root
     password: 1234
   jpa:
-    hibernate:
-      ddl-auto: create
+#    hibernate:
+#      ddl-auto: create
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
