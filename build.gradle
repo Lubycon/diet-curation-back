@@ -22,9 +22,11 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.mariadb.jdbc:mariadb-java-client'
+    implementation 'com.querydsl:querydsl-jpa'
 
     compileOnly 'org.projectlombok:lombok'
     compileOnly 'org.jetbrains:annotations:20.1.0'
+    compile 'com.querydsl:querydsl-sql:4.4.0'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
@@ -32,8 +34,15 @@ dependencies {
     }
 
     annotationProcessor 'org.projectlombok:lombok'
+    annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jpa"
+    annotationProcessor 'javax.persistence:javax.persistence-api'
+    annotationProcessor 'javax.annotation:javax.annotation-api'
 }
 
 test {
     useJUnitPlatform()
+}
+
+tasks.withType(JavaCompile) {
+    options.annotationProcessorGeneratedSourcesDirectory = file('src/main/generated')
 }
