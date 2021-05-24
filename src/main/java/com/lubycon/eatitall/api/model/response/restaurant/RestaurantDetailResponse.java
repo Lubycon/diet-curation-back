@@ -2,7 +2,6 @@ package com.lubycon.eatitall.api.model.response.restaurant;
 
 import com.lubycon.eatitall.domain.curation.dto.CurationDto;
 import com.lubycon.eatitall.domain.menu.dto.MenuDto;
-import com.lubycon.eatitall.domain.restaurant.model.Address;
 import com.lubycon.eatitall.domain.restaurant.model.KakaoMap;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -34,7 +33,7 @@ public class RestaurantDetailResponse {
   private String thumbnailImageUrl;
 
   @NotNull
-  private Address address;
+  private String address;
 
   @Nullable
   private KakaoMap kakaoMap;

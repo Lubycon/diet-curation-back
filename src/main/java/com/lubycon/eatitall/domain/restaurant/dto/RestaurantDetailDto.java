@@ -1,6 +1,5 @@
 package com.lubycon.eatitall.domain.restaurant.dto;
 
-import com.lubycon.eatitall.domain.restaurant.model.Address;
 import com.lubycon.eatitall.domain.restaurant.model.KakaoMap;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,7 +26,7 @@ public class RestaurantDetailDto {
   private final String thumbnailImageUrl;
 
   @NotNull
-  private final Address address;
+  private final String address;
 
   @Nullable
   private final KakaoMap kakaoMap;

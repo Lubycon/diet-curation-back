@@ -1,9 +1,6 @@
 package com.lubycon.eatitall.domain.restaurant.entity;
 
-import static com.lubycon.eatitall.common.util.CommonUtils.userIp;
-
 import com.lubycon.eatitall.common.entity.BaseEntity;
-import com.lubycon.eatitall.domain.restaurant.model.Address;
 import com.lubycon.eatitall.domain.restaurant.model.KakaoMap;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -38,16 +35,17 @@ public class Restaurant extends BaseEntity {
   @Column(nullable = true, length = 500)
   private String thumbnailImageUrl;
 
-  @Embedded
-  private Address address;
+  @Column(nullable = false, length = 500)
+  private String address;
 
   @Embedded
   private KakaoMap kakaoMap;
 
   @Builder
+
   public Restaurant(String name, String description, String hashtags,
-      String thumbnailImageUrl, Address address, KakaoMap kakaoMap) {
-    this.setCreatedIp(userIp());
+      String thumbnailImageUrl, String address,
+      KakaoMap kakaoMap) {
     this.name = name;
     this.description = description;
     this.hashtags = hashtags;

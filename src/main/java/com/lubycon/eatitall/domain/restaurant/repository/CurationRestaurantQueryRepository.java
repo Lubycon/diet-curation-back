@@ -23,10 +23,7 @@ public class CurationRestaurantQueryRepository extends AbstractQueryRepository {
             restaurant.name,
             restaurant.hashtags,
             restaurant.thumbnailImageUrl,
-            restaurant.address.district,
-            restaurant.address.street,
-            restaurant.address.detailedAddress,
-            restaurant.address.fullAddress,
+            restaurant.address,
             restaurant.kakaoMap.kakaoMapId,
             restaurant.kakaoMap.mapLatitude,
             restaurant.kakaoMap.mapLongitude
