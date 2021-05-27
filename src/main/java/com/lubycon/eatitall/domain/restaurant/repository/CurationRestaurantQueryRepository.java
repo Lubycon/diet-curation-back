@@ -18,33 +18,33 @@ public class CurationRestaurantQueryRepository extends AbstractQueryRepository {
   public List<CurationRestaurantResponse> findRestaurantsByCurationId(Long curationId) {
     return select(
         new QCurationRestaurantResponse(
-            curationRestaurant.curation.curationId,
-            restaurant.restaurantId,
+            curationRestaurant.curation.id,
+            restaurant.id,
             restaurant.name,
             restaurant.hashtags,
             restaurant.thumbnailImageUrl,
             restaurant.address,
-            restaurant.kakaoMap.kakaoMapId,
-            restaurant.kakaoMap.mapLatitude,
-            restaurant.kakaoMap.mapLongitude
+            restaurant.kakaoMap.id,
+            restaurant.kakaoMap.latitude,
+            restaurant.kakaoMap.longitude
         ))
         .from(curationRestaurant)
         .join(restaurant)
-        .on(curationRestaurant.restaurant.restaurantId.eq(restaurant.restaurantId))
-        .where(curationRestaurant.curation.curationId.eq(curationId))
+        .on(curationRestaurant.restaurant.id.eq(restaurant.id))
+        .where(curationRestaurant.curation.id.eq(curationId))
         .fetch();
   }
 
   public List<CurationDto> findCurationsByRestaurantId(Long restaurantId) {
     return select(
         new QCurationDto(
-            curationRestaurant.curation.curationId,
+            curationRestaurant.curation.id,
             curation.title
         ))
         .from(curationRestaurant)
         .join(curation)
-        .on(curationRestaurant.curation.curationId.eq(curation.curationId))
-        .where(curationRestaurant.restaurant.restaurantId.eq(restaurantId))
+        .on(curationRestaurant.curation.id.eq(curation.id))
+        .where(curationRestaurant.restaurant.id.eq(restaurantId))
         .fetch();
   }
 }

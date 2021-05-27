@@ -18,7 +18,7 @@ import org.jetbrains.annotations.Nullable;
 public class RestaurantDetailResponse {
 
   @NotNull
-  private Long restaurantId;
+  private Long id;
 
   @NotNull
   private String name;

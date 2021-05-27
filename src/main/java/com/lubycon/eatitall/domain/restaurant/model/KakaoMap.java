@@ -12,19 +12,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class KakaoMap {
 
-  @Column(nullable = true)
-  private Long kakaoMapId;
+  @Column(name="kakao_map_id", nullable = true)
+  private Long id;
 
   @Column(nullable = true, precision = 11, scale = 7)
-  private BigDecimal mapLatitude;
+  private BigDecimal latitude;
 
   @Column(nullable = true, precision = 11, scale = 7)
-  private BigDecimal mapLongitude;
+  private BigDecimal longitude;
 
   @Builder
-  public KakaoMap(Long kakaoMapId, BigDecimal mapLatitude, BigDecimal mapLongitude) {
-    this.kakaoMapId = kakaoMapId;
-    this.mapLatitude = mapLatitude;
-    this.mapLongitude = mapLongitude;
+  public KakaoMap(Long id, BigDecimal latitude, BigDecimal longitude) {
+    this.id = id;
+    this.latitude = latitude;
+    this.longitude = longitude;
   }
 }

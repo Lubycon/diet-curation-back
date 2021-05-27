@@ -19,7 +19,7 @@ public class Menu extends BaseEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long menuId;
+  private Long id;
 
   @Column(nullable = false)
   private Long restaurantId;

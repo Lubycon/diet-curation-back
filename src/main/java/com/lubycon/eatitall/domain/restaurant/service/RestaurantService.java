@@ -8,7 +8,7 @@ import com.lubycon.eatitall.common.exception.NotFoundException;
 import com.lubycon.eatitall.domain.curation.dto.CurationDto;
 import com.lubycon.eatitall.domain.menu.dto.MenuDto;
 import com.lubycon.eatitall.domain.menu.repository.MenuJpaRepository;
-import com.lubycon.eatitall.domain.restaurant.dto.RestaurantDetailDto;
+import com.lubycon.eatitall.domain.restaurant.entity.Restaurant;
 import com.lubycon.eatitall.domain.restaurant.repository.CurationRestaurantQueryRepository;
 import com.lubycon.eatitall.domain.restaurant.repository.RestaurantJpaRepository;
 import java.util.List;
@@ -29,8 +29,8 @@ public class RestaurantService {
   }
 
   public RestaurantDetailResponse retrieveRestaurantByRestaurantId(Long restaurantId) {
-    RestaurantDetailDto restaurantDetailDto = restaurantJpaRepository
-        .findByRestaurantId(restaurantId)
+    Restaurant restaurant = restaurantJpaRepository
+        .findById(restaurantId)
         .orElseThrow(() -> new NotFoundException(MSG_RESTAURANT_NOT_FOUND));
     List<CurationDto> curationDtos = curationRestaurantQueryRepository
         .findCurationsByRestaurantId(restaurantId);
@@ -38,7 +38,7 @@ public class RestaurantService {
 
     ModelMapper modelMapper = new ModelMapper();
     RestaurantDetailResponse restaurantDetailResponse = modelMapper
-        .map(restaurantDetailDto, RestaurantDetailResponse.class);
+        .map(restaurant, RestaurantDetailResponse.class);
     restaurantDetailResponse.setCurations(curationDtos);
     restaurantDetailResponse.setMenus(menuDtos);
 

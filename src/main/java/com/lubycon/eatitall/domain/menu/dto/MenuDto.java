@@ -10,7 +10,7 @@ import org.jetbrains.annotations.Nullable;
 public class MenuDto {
 
   @NotNull
-  private final Long menuId;
+  private final Long id;
 
   @NotNull
   private final Long restaurantId;

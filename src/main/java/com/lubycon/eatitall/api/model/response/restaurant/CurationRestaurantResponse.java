@@ -31,18 +31,18 @@ public class CurationRestaurantResponse {
   private final Long kakaoMapId;
 
   @Nullable
-  private final BigDecimal mapLatitude;
+  private final BigDecimal latitude;
 
   @Nullable
-  private final BigDecimal mapLongitude;
+  private final BigDecimal longitude;
 
   @QueryProjection
   public CurationRestaurantResponse(@NotNull Long curationId,
       @NotNull Long restaurantId, @NotNull String name,
       @Nullable String hashtags,
       @NotNull String thumbnailImageUrl, @NotNull String address,
-      @Nullable Long kakaoMapId, @Nullable BigDecimal mapLatitude,
-      @Nullable BigDecimal mapLongitude) {
+      @Nullable Long kakaoMapId, @Nullable BigDecimal latitude,
+      @Nullable BigDecimal longitude) {
     this.curationId = curationId;
     this.restaurantId = restaurantId;
     this.name = name;
@@ -50,7 +50,7 @@ public class CurationRestaurantResponse {
     this.thumbnailImageUrl = thumbnailImageUrl;
     this.address = address;
     this.kakaoMapId = kakaoMapId;
-    this.mapLatitude = mapLatitude;
-    this.mapLongitude = mapLongitude;
+    this.latitude = latitude;
+    this.longitude = longitude;
   }
 }

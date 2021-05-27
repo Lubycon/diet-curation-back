@@ -20,7 +20,7 @@ public class Curation extends BaseEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long curationId;
+  private Long id;
 
   @Column(nullable = false, length=100)
   private String title;

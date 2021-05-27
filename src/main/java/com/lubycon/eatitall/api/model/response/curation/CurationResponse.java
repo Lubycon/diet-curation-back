@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 public class CurationResponse {
 
   @NotNull
-  private final Long curationId;
+  private final Long id;
 
   @NotNull
   private final String title;

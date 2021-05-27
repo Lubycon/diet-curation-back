@@ -8,15 +8,15 @@ import org.jetbrains.annotations.NotNull;
 public class CurationDto {
 
   @NotNull
-  private final Long curationId;
+  private final Long id;
 
   @NotNull
   private final String title;
 
   @QueryProjection
-  public CurationDto(@NotNull Long curationId,
+  public CurationDto(@NotNull Long id,
       @NotNull String title) {
-    this.curationId = curationId;
+    this.id = id;
     this.title = title;
   }
 }
