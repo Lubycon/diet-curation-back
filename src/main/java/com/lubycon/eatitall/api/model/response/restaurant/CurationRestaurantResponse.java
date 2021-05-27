@@ -1,56 +1,37 @@
 package com.lubycon.eatitall.api.model.response.restaurant;
 
-import com.querydsl.core.annotations.QueryProjection;
-import java.math.BigDecimal;
+import com.lubycon.eatitall.domain.restaurant.model.KakaoMap;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
+@Setter
 public class CurationRestaurantResponse {
 
   @NotNull
-  private final Long curationId;
+  private Long curationId;
 
   @NotNull
-  private final Long restaurantId;
+  private Long id;
 
   @NotNull
-  private final String name;
+  private String name;
 
   @Nullable
-  private final String hashtags;
+  private String[] hashtags;
+
+  @Nullable
+  private String thumbnailImageUrl;
 
   @NotNull
-  private final String thumbnailImageUrl;
-
-  @NotNull
-  private final String address;
+  private String address;
 
   @Nullable
-  private final Long kakaoMapId;
-
-  @Nullable
-  private final BigDecimal latitude;
-
-  @Nullable
-  private final BigDecimal longitude;
-
-  @QueryProjection
-  public CurationRestaurantResponse(@NotNull Long curationId,
-      @NotNull Long restaurantId, @NotNull String name,
-      @Nullable String hashtags,
-      @NotNull String thumbnailImageUrl, @NotNull String address,
-      @Nullable Long kakaoMapId, @Nullable BigDecimal latitude,
-      @Nullable BigDecimal longitude) {
-    this.curationId = curationId;
-    this.restaurantId = restaurantId;
-    this.name = name;
-    this.hashtags = hashtags;
-    this.thumbnailImageUrl = thumbnailImageUrl;
-    this.address = address;
-    this.kakaoMapId = kakaoMapId;
-    this.latitude = latitude;
-    this.longitude = longitude;
-  }
+  private KakaoMap kakaoMap;
 }

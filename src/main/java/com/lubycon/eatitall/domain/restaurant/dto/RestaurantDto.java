@@ -8,10 +8,10 @@ import org.jetbrains.annotations.Nullable;
 
 @AllArgsConstructor
 @Getter
-public class RestaurantDetailDto {
+public class RestaurantDto {
 
   @NotNull
-  private final Long restaurantId;
+  private final Long id;
 
   @NotNull
   private final String name;

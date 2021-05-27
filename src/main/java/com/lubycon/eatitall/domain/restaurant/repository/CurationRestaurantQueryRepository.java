@@ -4,20 +4,20 @@ import static com.lubycon.eatitall.domain.curation.entity.QCuration.curation;
 import static com.lubycon.eatitall.domain.restaurant.entity.QCurationRestaurant.curationRestaurant;
 import static com.lubycon.eatitall.domain.restaurant.entity.QRestaurant.restaurant;
 
-import com.lubycon.eatitall.api.model.response.restaurant.CurationRestaurantResponse;
-import com.lubycon.eatitall.api.model.response.restaurant.QCurationRestaurantResponse;
 import com.lubycon.eatitall.common.repository.AbstractQueryRepository;
 import com.lubycon.eatitall.domain.curation.dto.CurationDto;
 import com.lubycon.eatitall.domain.curation.dto.QCurationDto;
+import com.lubycon.eatitall.domain.restaurant.dto.CurationRestaurantDto;
+import com.lubycon.eatitall.domain.restaurant.dto.QCurationRestaurantDto;
 import java.util.List;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class CurationRestaurantQueryRepository extends AbstractQueryRepository {
 
-  public List<CurationRestaurantResponse> findRestaurantsByCurationId(Long curationId) {
+  public List<CurationRestaurantDto> findRestaurantsByCurationId(Long curationId) {
     return select(
-        new QCurationRestaurantResponse(
+        new QCurationRestaurantDto(
             curationRestaurant.curation.id,
             restaurant.id,
             restaurant.name,

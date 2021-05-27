@@ -3,29 +3,33 @@ package com.lubycon.eatitall.api.model.response.restaurant;
 import com.lubycon.eatitall.domain.restaurant.model.KakaoMap;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
+@Setter
 public class RestaurantResponse {
 
   @NotNull
-  private final Long id;
+  private Long id;
 
   @NotNull
-  private final String name;
+  private String name;
 
   @Nullable
-  private final String hashtags;
+  private String[] hashtags;
 
   @Nullable
-  private final String thumbnailImageUrl;
+  private String thumbnailImageUrl;
 
   @NotNull
-  private final String address;
+  private String address;
 
   @Nullable
-  private final KakaoMap kakaoMap;
+  private KakaoMap kakaoMap;
 
 }

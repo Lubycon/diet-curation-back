@@ -27,7 +27,7 @@ public class RestaurantDetailResponse {
   private String description;
 
   @Nullable
-  private String hashtags;
+  private String[] hashtags;
 
   @Nullable
   private String thumbnailImageUrl;
