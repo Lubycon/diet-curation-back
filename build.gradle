@@ -25,6 +25,7 @@ dependencies {
     implementation 'com.querydsl:querydsl-jpa'
     implementation 'org.modelmapper:modelmapper:2.4.1'
     implementation 'io.springfox:springfox-boot-starter:3.0.0'
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:3.0.2'
 
     compileOnly 'org.projectlombok:lombok'
     compileOnly 'org.jetbrains:annotations:20.1.0'

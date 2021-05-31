@@ -7,4 +7,6 @@ public class MessageUtils {
   public static String MSG_NOT_FOUND = "Not Found";
   public static String MSG_CURATION_NOT_FOUND = "Curation Not Found";
   public static String MSG_RESTAURANT_NOT_FOUND = "Restaurant Not Found";
+  public static String MSG_INVALID_ADMIN_KEY = "Invalid Admin Key";
+
 }

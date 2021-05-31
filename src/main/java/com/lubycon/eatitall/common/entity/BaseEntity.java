@@ -30,7 +30,7 @@ public abstract class BaseEntity {
 
   private int sequenceNumber;
 
-  private int isHidden;
+  public int isHidden;
 
   public void setCreatedIp(String ip) {
     this.createdIp = ip;

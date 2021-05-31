@@ -9,6 +9,7 @@ import com.lubycon.eatitall.domain.curation.dto.CurationDto;
 import com.lubycon.eatitall.domain.curation.dto.QCurationDto;
 import com.lubycon.eatitall.domain.restaurant.dto.CurationRestaurantDto;
 import com.lubycon.eatitall.domain.restaurant.dto.QCurationRestaurantDto;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import java.util.List;
 import org.springframework.stereotype.Repository;
 
@@ -31,7 +32,10 @@ public class CurationRestaurantQueryRepository extends AbstractQueryRepository {
         .from(curationRestaurant)
         .join(restaurant)
         .on(curationRestaurant.restaurant.id.eq(restaurant.id))
-        .where(curationRestaurant.curation.id.eq(curationId))
+        .where(
+            curationRestaurant.curation.id.eq(curationId),
+            restaurantNotHidden()
+        )
         .fetch();
   }
 
@@ -46,5 +50,9 @@ public class CurationRestaurantQueryRepository extends AbstractQueryRepository {
         .on(curationRestaurant.curation.id.eq(curation.id))
         .where(curationRestaurant.restaurant.id.eq(restaurantId))
         .fetch();
+  }
+
+  public BooleanExpression restaurantNotHidden() {
+    return restaurant.isHidden.eq(0);
   }
 }

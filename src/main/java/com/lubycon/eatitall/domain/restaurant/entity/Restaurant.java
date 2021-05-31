@@ -27,10 +27,11 @@ import lombok.NoArgsConstructor;
     query =
         "select r.id, r.name, r.description, r.hashtags, r.thumbnail_image_url, "
             + "r.address, r.kakao_map_id, r.latitude, r.longitude, "
-            + "(select group_concat(curation_id)"
+            + "(select group_concat(curation_id) "
             + "from curation_restaurant "
             + "where restaurant_id = r.id) as curation_ids "
-            + "FROM restaurant r ",
+            + "from restaurant r "
+            + "where r.is_hidden = 0",
     resultSetMapping = "rs_restaurant_dto"
 )
 @SqlResultSetMapping(
@@ -79,12 +80,23 @@ public class Restaurant extends BaseEntity {
   @Builder
   public Restaurant(String name, String description, String hashtags,
       String thumbnailImageUrl, String address,
-      KakaoMap kakaoMap) {
+      KakaoMap kakaoMap, int isHidden) {
     this.name = name;
     this.description = description;
     this.hashtags = hashtags;
     this.thumbnailImageUrl = thumbnailImageUrl;
     this.address = address;
     this.kakaoMap = kakaoMap;
+    this.isHidden = isHidden;
   }
+
+  public void updateRestaurant(Restaurant restaurant) {
+    this.name = restaurant.name;
+    this.description = restaurant.description;
+    this.hashtags = restaurant.hashtags;
+    this.thumbnailImageUrl = restaurant.thumbnailImageUrl;
+    this.address = restaurant.address;
+    this.isHidden = restaurant.isHidden;
+  }
+
 }
