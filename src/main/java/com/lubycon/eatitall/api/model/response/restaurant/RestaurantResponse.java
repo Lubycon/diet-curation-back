@@ -32,4 +32,7 @@ public class RestaurantResponse {
   @Nullable
   private KakaoMap kakaoMap;
 
+  @Nullable
+  private String[] curationIds;
+
 }

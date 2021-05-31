@@ -10,6 +10,7 @@ import com.lubycon.eatitall.domain.menu.dto.MenuDto;
 import com.lubycon.eatitall.domain.menu.repository.MenuJpaRepository;
 import com.lubycon.eatitall.domain.restaurant.dto.RestaurantDto;
 import com.lubycon.eatitall.domain.restaurant.entity.Restaurant;
+import com.lubycon.eatitall.domain.restaurant.model.KakaoMap;
 import com.lubycon.eatitall.domain.restaurant.repository.CurationRestaurantQueryRepository;
 import com.lubycon.eatitall.domain.restaurant.repository.RestaurantJpaRepository;
 import java.util.List;
@@ -27,7 +28,7 @@ public class RestaurantService {
   private final MenuJpaRepository menuJpaRepository;
 
   public List<RestaurantResponse> retrieveAllRestaurants() {
-    List<RestaurantDto> restaurantDtos = restaurantJpaRepository.findAllBy();
+    List<RestaurantDto> restaurantDtos = restaurantJpaRepository.findRestaurants();
 
     ModelMapper modelMapper = new ModelMapper();
     return restaurantDtos.stream()
@@ -37,6 +38,15 @@ public class RestaurantService {
           if (restaurantDto.getHashtags() != null) {
             restaurantResponse.setHashtags(restaurantDto.getHashtags().split(","));
           }
+          if (restaurantDto.getCurationIds() != null) {
+            restaurantResponse.setCurationIds(restaurantDto.getCurationIds().split(","));
+          }
+          KakaoMap kakaoMap = KakaoMap.builder()
+              .id(restaurantDto.getKakaoMapId())
+              .latitude(restaurantDto.getLatitude())
+              .longitude(restaurantDto.getLongitude())
+              .build();
+          restaurantResponse.setKakaoMap(kakaoMap);
           return restaurantResponse;
         })
         .collect(Collectors.toList());

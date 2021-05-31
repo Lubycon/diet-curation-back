@@ -1,6 +1,6 @@
 package com.lubycon.eatitall.domain.restaurant.dto;
 
-import com.lubycon.eatitall.domain.restaurant.model.KakaoMap;
+import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
@@ -29,6 +29,15 @@ public class RestaurantDto {
   private final String address;
 
   @Nullable
-  private final KakaoMap kakaoMap;
+  private final Long kakaoMapId;
+
+  @Nullable
+  private final BigDecimal latitude;
+
+  @Nullable
+  private final BigDecimal longitude;
+
+  @Nullable
+  private final String curationIds;
 
 }
