@@ -99,4 +99,7 @@ public class Restaurant extends BaseEntity {
     this.isHidden = restaurant.isHidden;
   }
 
+  public void updateThumbnailImageUrl(String thumbnailImageUrl) {
+    this.thumbnailImageUrl = thumbnailImageUrl;
+  }
 }
