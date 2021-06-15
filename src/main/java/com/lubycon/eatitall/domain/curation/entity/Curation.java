@@ -22,17 +22,29 @@ public class Curation extends BaseEntity {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(nullable = false, length=100)
+  @Column(nullable = false, length = 100)
   private String title;
 
   @Lob
   @Column(nullable = true)
   private String contents;
 
+  @Column(nullable = true, length = 500)
+  private String imageUrl;
+
   @Builder
-  public Curation(String title, String contents) {
+  public Curation(String title, String contents, int isHidden) {
     this.setCreatedIp(userIp());
-    this.title = title;
     this.contents = contents;
+    this.isHidden = isHidden;
+  }
+
+  public void updateCuration(Curation curation) {
+    this.imageUrl = curation.imageUrl;
+    this.isHidden = curation.isHidden;
+  }
+
+  public void updateImageUrl(String imageUrl) {
+    this.imageUrl = imageUrl;
   }
 }

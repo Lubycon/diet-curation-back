@@ -18,6 +18,6 @@ public interface RestaurantJpaRepository extends JpaRepository<Restaurant, Long>
   @NotNull
   Optional<Restaurant> findById(@Param("restaurntId") @NotNull Long restaurantId);
 
-  Restaurant findByName(String name);
+  Optional<Restaurant> findByName(String name);
 
 }

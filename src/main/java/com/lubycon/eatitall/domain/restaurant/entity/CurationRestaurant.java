@@ -33,10 +33,15 @@ public class CurationRestaurant extends BaseEntity {
   private Restaurant restaurant;
 
   @Builder
-  public CurationRestaurant(Curation curation, Restaurant restaurant) {
+  public CurationRestaurant(Curation curation, Restaurant restaurant, int isHidden) {
     this.setCreatedIp(userIp());
     this.curation = curation;
     this.restaurant = restaurant;
+    this.isHidden = isHidden;
+  }
+
+  public void updateCurationRestaurant(CurationRestaurant curationRestaurant) {
+    this.isHidden = curationRestaurant.isHidden;
   }
 
 }

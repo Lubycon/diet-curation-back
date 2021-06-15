@@ -34,7 +34,7 @@ public class CurationRestaurantQueryRepository extends AbstractQueryRepository {
         .on(curationRestaurant.restaurant.id.eq(restaurant.id))
         .where(
             curationRestaurant.curation.id.eq(curationId),
-            restaurantNotHidden()
+            notHidden()
         )
         .fetch();
   }
@@ -52,7 +52,9 @@ public class CurationRestaurantQueryRepository extends AbstractQueryRepository {
         .fetch();
   }
 
-  public BooleanExpression restaurantNotHidden() {
-    return restaurant.isHidden.eq(0);
+  public BooleanExpression notHidden() {
+    return restaurant.isHidden.eq(0)
+        .and(curationRestaurant.curation.isHidden.eq(0))
+        .and(curationRestaurant.isHidden.eq(0));
   }
 }

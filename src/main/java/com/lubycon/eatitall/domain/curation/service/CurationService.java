@@ -19,7 +19,7 @@ public class CurationService {
   private final CurationJpaRepository curationJpaRepository;
 
   public List<CurationResponse> retrieveAllCurations() {
-    return curationJpaRepository.findAllBy();
+    return curationJpaRepository.findAllByIsHidden(0);
   }
 
   public CurationDetailResponse retrieveCurationByCurationId(Long curationId) {
