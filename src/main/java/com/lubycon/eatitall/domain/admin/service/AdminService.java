@@ -42,7 +42,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
 
 @Service
 @RequiredArgsConstructor
@@ -123,7 +122,7 @@ public class AdminService {
         restaurantBuilder.isHidden(Integer.parseInt(column));
         Restaurant restaurantResult = updateOrSaveRestaurant(isDuplicate, selectedRestaurant,
             restaurantBuilder);
-        if(ObjectUtils.isEmpty(thumbnailImageUrl)) {
+        if (ObjectUtils.isEmpty(thumbnailImageUrl)) {
           restaurantResult.updateThumbnailImageUrl(null);
           break;
         }
@@ -208,7 +207,7 @@ public class AdminService {
         curationBuilder.isHidden(Integer.parseInt(column));
         Curation curationResult = updateOrSaveCuration(isDuplicate, selectedCuration,
             curationBuilder);
-        if(ObjectUtils.isEmpty(imageUrl)) {
+        if (ObjectUtils.isEmpty(imageUrl)) {
           curationResult.updateImageUrl(null);
           break;
         }

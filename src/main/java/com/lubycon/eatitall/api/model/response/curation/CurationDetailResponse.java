@@ -20,6 +20,9 @@ public class CurationDetailResponse {
   private String title;
 
   @Nullable
+  private String imageUrl;
+
+  @Nullable
   private String contents;
 
 }
