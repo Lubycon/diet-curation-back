@@ -19,6 +19,9 @@ public class CurationRestaurantDto {
   private final String name;
 
   @Nullable
+  private final String description;
+
+  @Nullable
   private final String hashtags;
 
   @NotNull
@@ -39,6 +42,7 @@ public class CurationRestaurantDto {
   @QueryProjection
   public CurationRestaurantDto(@NotNull Long curationId,
       @NotNull Long restaurantId, @NotNull String name,
+      @Nullable String description,
       @Nullable String hashtags,
       @NotNull String thumbnailImageUrl, @NotNull String address,
       @Nullable Long kakaoMapId, @Nullable BigDecimal latitude,
@@ -46,6 +50,7 @@ public class CurationRestaurantDto {
     this.curationId = curationId;
     this.restaurantId = restaurantId;
     this.name = name;
+    this.description = description;
     this.hashtags = hashtags;
     this.thumbnailImageUrl = thumbnailImageUrl;
     this.address = address;

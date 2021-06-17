@@ -24,6 +24,9 @@ public class CurationRestaurantResponse {
   private String name;
 
   @Nullable
+  private String description;
+
+  @Nullable
   private String[] hashtags;
 
   @Nullable

@@ -22,6 +22,7 @@ public class CurationRestaurantQueryRepository extends AbstractQueryRepository {
             curationRestaurant.curation.id,
             restaurant.id,
             restaurant.name,
+            restaurant.description,
             restaurant.hashtags,
             restaurant.thumbnailImageUrl,
             restaurant.address,
