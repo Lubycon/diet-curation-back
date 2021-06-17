@@ -35,6 +35,7 @@ public class Curation extends BaseEntity {
   @Builder
   public Curation(String title, String contents, int isHidden) {
     this.setCreatedIp(userIp());
+    this.title = title;
     this.contents = contents;
     this.isHidden = isHidden;
   }
