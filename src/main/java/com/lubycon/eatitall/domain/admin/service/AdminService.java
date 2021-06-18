@@ -10,6 +10,7 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.CopyObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.lubycon.eatitall.common.exception.NotFoundException;
@@ -61,6 +62,9 @@ public class AdminService {
 
   @Value("${aws.s3.secretKey}")
   private String secretKey;
+
+  @Value("${aws.s3.bucket}")
+  private String bucket;
 
   private AmazonS3 s3Client;
 
@@ -129,7 +133,7 @@ public class AdminService {
         Long restaurantId = restaurantResult.getId();
         uploadImageToS3(restaurantId, thumbnailImageUrl, "restaurant/");
         restaurantResult
-            .updateThumbnailImageUrl("/images/restaurant/" + restaurantResult.getId() + ".png");
+            .updateThumbnailImageUrl("/images/restaurant/" + restaurantResult.getId() + ".jpg");
         break;
       }
       columnIndex++;
@@ -138,6 +142,19 @@ public class AdminService {
 
   private void uploadImageToS3(Long restaurantId, String imageUrl, String imageDir) {
     try {
+      String uploadKey = "images/" + imageDir + restaurantId + ".jpg";
+      if (imageUrl.contains(bucket)) {
+        s3Client.copyObject(
+            new CopyObjectRequest(
+                bucket,
+                imageUrl.split(bucket)[1].substring(1),
+                bucket,
+                uploadKey
+            )
+        );
+        return;
+      }
+
       BufferedImage image = ImageIO.read(new URL(imageUrl));
       ByteArrayOutputStream baos = new ByteArrayOutputStream();
       ImageIO.write(image, "png", baos);
@@ -145,12 +162,12 @@ public class AdminService {
       InputStream is = new ByteArrayInputStream(buffer);
       ObjectMetadata meta = new ObjectMetadata();
       meta.setContentLength(buffer.length);
-      meta.setContentType(MediaType.IMAGE_PNG_VALUE);
+      meta.setContentType(MediaType.IMAGE_JPEG_VALUE);
 
       s3Client.putObject(
           new PutObjectRequest(
-              "file.eat-all.io",
-              "images/" + imageDir + restaurantId + ".png",
+              bucket,
+              uploadKey,
               is,
               meta
           ).withCannedAcl(CannedAccessControlList.PublicRead)
@@ -213,7 +230,7 @@ public class AdminService {
         }
         Long curationId = curationResult.getId();
         uploadImageToS3(curationId, imageUrl, "curation/");
-        curationResult.updateImageUrl("/images/curation/" + curationResult.getId() + ".png");
+        curationResult.updateImageUrl("/images/curation/" + curationResult.getId() + ".jpg");
         break;
       }
       columnIndex++;
