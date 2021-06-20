@@ -1,6 +1,7 @@
 package com.lubycon.eatitall.api.model.response.restaurant;
 
 import com.lubycon.eatitall.domain.curation.dto.CurationDto;
+import com.lubycon.eatitall.domain.material.dto.MaterialDto;
 import com.lubycon.eatitall.domain.menu.dto.MenuDto;
 import com.lubycon.eatitall.domain.restaurant.model.KakaoMap;
 import java.util.List;
@@ -43,5 +44,8 @@ public class RestaurantDetailResponse {
 
   @Nullable
   private List<MenuDto> menus;
+
+  @Nullable
+  private MaterialDto material;
 
 }

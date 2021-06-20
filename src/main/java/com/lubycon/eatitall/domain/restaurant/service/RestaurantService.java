@@ -6,13 +6,15 @@ import com.lubycon.eatitall.api.model.response.restaurant.RestaurantDetailRespon
 import com.lubycon.eatitall.api.model.response.restaurant.RestaurantResponse;
 import com.lubycon.eatitall.common.exception.NotFoundException;
 import com.lubycon.eatitall.domain.curation.dto.CurationDto;
+import com.lubycon.eatitall.domain.material.dto.MaterialDto;
 import com.lubycon.eatitall.domain.menu.dto.MenuDto;
 import com.lubycon.eatitall.domain.menu.repository.MenuJpaRepository;
+import com.lubycon.eatitall.domain.restaurant.dto.RestaurantDetailDto;
 import com.lubycon.eatitall.domain.restaurant.dto.RestaurantDto;
-import com.lubycon.eatitall.domain.restaurant.entity.Restaurant;
 import com.lubycon.eatitall.domain.restaurant.model.KakaoMap;
 import com.lubycon.eatitall.domain.restaurant.repository.CurationRestaurantQueryRepository;
 import com.lubycon.eatitall.domain.restaurant.repository.RestaurantJpaRepository;
+import com.lubycon.eatitall.domain.restaurant.repository.RestaurantQueryRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,7 @@ import org.springframework.stereotype.Service;
 public class RestaurantService {
 
   private final RestaurantJpaRepository restaurantJpaRepository;
+  private final RestaurantQueryRepository restaurantQueryRepository;
   private final CurationRestaurantQueryRepository curationRestaurantQueryRepository;
   private final MenuJpaRepository menuJpaRepository;
 
@@ -53,22 +56,36 @@ public class RestaurantService {
   }
 
   public RestaurantDetailResponse retrieveRestaurantByRestaurantId(Long restaurantId) {
-    Restaurant restaurant = restaurantJpaRepository
-        .findById(restaurantId)
-        .orElseThrow(() -> new NotFoundException(MSG_RESTAURANT_NOT_FOUND));
+    RestaurantDetailDto restaurantDto = restaurantQueryRepository
+        .findById(restaurantId);
+    if (restaurantDto == null) {
+      throw new NotFoundException(MSG_RESTAURANT_NOT_FOUND);
+    }
     List<CurationDto> curationDtos = curationRestaurantQueryRepository
         .findCurationsByRestaurantId(restaurantId);
     List<MenuDto> menuDtos = menuJpaRepository.findMenusByRestaurantIdAndIsHidden(restaurantId, 0);
 
     ModelMapper modelMapper = new ModelMapper();
     RestaurantDetailResponse restaurantDetailResponse = modelMapper
-        .map(restaurant, RestaurantDetailResponse.class);
+        .map(restaurantDto, RestaurantDetailResponse.class);
 
-    if (restaurant.getHashtags() != null) {
-      restaurantDetailResponse.setHashtags(restaurant.getHashtags().split(","));
+    KakaoMap kakaoMap = KakaoMap.builder()
+        .id(restaurantDto.getKakaoMapId())
+        .latitude(restaurantDto.getLatitude())
+        .longitude(restaurantDto.getLongitude())
+        .build();
+    restaurantDetailResponse.setKakaoMap(kakaoMap);
+    if (restaurantDto.getHashtags() != null) {
+      restaurantDetailResponse.setHashtags(restaurantDto.getHashtags().split(","));
     }
     restaurantDetailResponse.setCurations(curationDtos);
     restaurantDetailResponse.setMenus(menuDtos);
+    MaterialDto materialDto = MaterialDto.builder()
+        .id(restaurantDto.getMaterialId())
+        .name(restaurantDto.getMaterialName())
+        .contents(restaurantDto.getMaterialContents())
+        .build();
+    restaurantDetailResponse.setMaterial(materialDto);
 
     return restaurantDetailResponse;
   }
