@@ -221,6 +221,8 @@ public class AdminService {
       } else if (columnIndex == 2) {
         imageUrl = column;
       } else if (columnIndex == 3) {
+        curationBuilder.contents(column);
+      } else if (columnIndex == 4) {
         curationBuilder.isHidden(Integer.parseInt(column));
         Curation curationResult = updateOrSaveCuration(isDuplicate, selectedCuration,
             curationBuilder);

@@ -42,6 +42,7 @@ public class Curation extends BaseEntity {
 
   public void updateCuration(Curation curation) {
     this.imageUrl = curation.imageUrl;
+    this.contents = curation.contents;
     this.isHidden = curation.isHidden;
   }
 
