@@ -56,11 +56,23 @@ public class AdminController {
       value = "어드민 시트의 큐레이션-식당 데이터를 갱신한다.",
       notes = googleSheetUrl)
   @GetMapping("/sheet/renew/curationRestaurant")
-  public ResponseEntity<Response> renewAdminSheet(@RequestParam(required = true) String adminKey) {
+  public ResponseEntity<Response> renewCurationRestaurantSheet(@RequestParam(required = true) String adminKey) {
     if (!adminKey.equals(adminAuthKey)) {
       throw new InvalidRequestException(MSG_INVALID_ADMIN_KEY);
     }
     adminService.renewCurationRestaurantSheet();
+    return ResponseEntity.ok().body(new Response());
+  }
+
+  @ApiOperation(
+      value = "어드민 시트의 주재료 데이터를 갱신한다.",
+      notes = googleSheetUrl)
+  @GetMapping("/sheet/renew/material")
+  public ResponseEntity<Response> renewMaterialSheet(@RequestParam(required = true) String adminKey) {
+    if (!adminKey.equals(adminAuthKey)) {
+      throw new InvalidRequestException(MSG_INVALID_ADMIN_KEY);
+    }
+    adminService.renewMaterialSheet();
     return ResponseEntity.ok().body(new Response());
   }
 }

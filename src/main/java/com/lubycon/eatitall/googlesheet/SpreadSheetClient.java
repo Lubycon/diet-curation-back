@@ -27,4 +27,10 @@ public interface SpreadSheetClient {
       value = "/values/curationRestaurants",
       produces = MediaType.APPLICATION_JSON_VALUE)
   SpreadSheetResponse curationRestaurants(@RequestParam String key);
+
+  @RequestMapping(
+      method = RequestMethod.GET,
+      value = "/values/materials",
+      produces = MediaType.APPLICATION_JSON_VALUE)
+  SpreadSheetResponse materials(@RequestParam String key);
 }

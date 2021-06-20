@@ -17,6 +17,9 @@ import com.lubycon.eatitall.common.exception.NotFoundException;
 import com.lubycon.eatitall.domain.curation.entity.Curation;
 import com.lubycon.eatitall.domain.curation.entity.Curation.CurationBuilder;
 import com.lubycon.eatitall.domain.curation.repository.CurationJpaRepository;
+import com.lubycon.eatitall.domain.material.repository.MaterialJpaRepository;
+import com.lubycon.eatitall.domain.menu.entity.Material;
+import com.lubycon.eatitall.domain.menu.entity.Material.MaterialBuilder;
 import com.lubycon.eatitall.domain.restaurant.entity.CurationRestaurant;
 import com.lubycon.eatitall.domain.restaurant.entity.CurationRestaurant.CurationRestaurantBuilder;
 import com.lubycon.eatitall.domain.restaurant.entity.Restaurant;
@@ -53,6 +56,7 @@ public class AdminService {
   private final RestaurantJpaRepository restaurantJpaRepository;
   private final CurationJpaRepository curationJpaRepository;
   private final CurationRestaurantJpaRepository curationRestaurantJpaRepository;
+  private final MaterialJpaRepository materialJpaRepository;
 
   @Value("${google.spreadSheets.apiKey}")
   private String apiKey;
@@ -308,4 +312,51 @@ public class AdminService {
     curationRestaurantJpaRepository.save(buildCurationRestaurant);
   }
 
+  @Transactional
+  public void renewMaterialSheet() {
+    List<String[]> materials = spreadSheetClient.materials(apiKey).getValues();
+
+    int rowIndex = 1, columnIndex;
+    for (String[] material : materials) {
+      columnIndex = 1;
+      if (rowIndex > 2) {
+        renewMaterialSheetData(columnIndex, material);
+      }
+      rowIndex++;
+    }
+  }
+
+  private void renewMaterialSheetData(int columnIndex, String[] material) {
+    boolean isDuplicate = false;
+    Material selectedMaterial = null;
+    MaterialBuilder materialBuilder = Material.builder();
+    for (String column : material) {
+      if (columnIndex == 1) {
+        materialBuilder.name(column);
+        Optional<Material> findMaterial = materialJpaRepository.findByName(column);
+        if (findMaterial.isPresent()) {
+          isDuplicate = true;
+          selectedMaterial = findMaterial.get();
+        }
+      } else if (columnIndex == 2) {
+        materialBuilder.contents(column);
+      } else if (columnIndex == 3) {
+        materialBuilder.isHidden(Integer.parseInt(column));
+        updateOrSaveMaterial(isDuplicate, selectedMaterial, materialBuilder);
+        break;
+      }
+      columnIndex++;
+    }
+  }
+
+  private void updateOrSaveMaterial(boolean isDuplicate, Material selectedMaterial,
+      MaterialBuilder materialBuilder) {
+    Material buildMaterial = materialBuilder.build();
+    if (isDuplicate) {
+      System.out.println("@@@"+selectedMaterial.getContents());
+      selectedMaterial.updateMaterial(buildMaterial);
+      return;
+    }
+    materialJpaRepository.save(buildMaterial);
+  }
 }
