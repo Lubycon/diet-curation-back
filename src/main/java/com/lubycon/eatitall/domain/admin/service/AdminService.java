@@ -1,6 +1,7 @@
 package com.lubycon.eatitall.domain.admin.service;
 
 import static com.lubycon.eatitall.common.util.MessageUtils.MSG_CURATION_NOT_FOUND;
+import static com.lubycon.eatitall.common.util.MessageUtils.MSG_MATERIAL_NOT_FOUND;
 import static com.lubycon.eatitall.common.util.MessageUtils.MSG_RESTAURANT_NOT_FOUND;
 
 import com.amazonaws.auth.AWSCredentials;
@@ -127,6 +128,10 @@ public class AdminService {
       } else if (columnIndex == 8) {
         restaurantBuilder.description(column);
       } else if (columnIndex == 9) {
+        Material material = materialJpaRepository.findByName(column)
+            .orElseThrow(() -> new NotFoundException(MSG_MATERIAL_NOT_FOUND));
+        restaurantBuilder.materialId(material.getId());
+      } else if (columnIndex == 13) {
         restaurantBuilder.isHidden(Integer.parseInt(column));
         Restaurant restaurantResult = updateOrSaveRestaurant(isDuplicate, selectedRestaurant,
             restaurantBuilder);
@@ -353,7 +358,6 @@ public class AdminService {
       MaterialBuilder materialBuilder) {
     Material buildMaterial = materialBuilder.build();
     if (isDuplicate) {
-      System.out.println("@@@"+selectedMaterial.getContents());
       selectedMaterial.updateMaterial(buildMaterial);
       return;
     }

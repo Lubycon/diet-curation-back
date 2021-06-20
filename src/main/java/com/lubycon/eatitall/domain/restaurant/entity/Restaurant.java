@@ -77,16 +77,20 @@ public class Restaurant extends BaseEntity {
   @Embedded
   private KakaoMap kakaoMap;
 
+  @Column(nullable = true)
+  private Long materialId;
+
   @Builder
   public Restaurant(String name, String description, String hashtags,
       String thumbnailImageUrl, String address,
-      KakaoMap kakaoMap, int isHidden) {
+      KakaoMap kakaoMap, Long materialId, int isHidden) {
     this.name = name;
     this.description = description;
     this.hashtags = hashtags;
     this.thumbnailImageUrl = thumbnailImageUrl;
     this.address = address;
     this.kakaoMap = kakaoMap;
+    this.materialId = materialId;
     this.isHidden = isHidden;
   }
 
@@ -96,6 +100,7 @@ public class Restaurant extends BaseEntity {
     this.hashtags = restaurant.hashtags;
     this.thumbnailImageUrl = restaurant.thumbnailImageUrl;
     this.address = restaurant.address;
+    this.materialId = restaurant.materialId;
     this.isHidden = restaurant.isHidden;
   }
 
