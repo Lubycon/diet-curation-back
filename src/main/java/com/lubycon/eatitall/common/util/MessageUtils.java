@@ -9,5 +9,6 @@ public class MessageUtils {
   public static String MSG_RESTAURANT_NOT_FOUND = "Restaurant Not Found";
   public static String MSG_MATERIAL_NOT_FOUND = "Material Not Found";
   public static String MSG_INVALID_ADMIN_KEY = "Invalid Admin Key";
+  public static String MSG_INVALID_MENU_INPUT = "Invalid Menu Input";
 
 }

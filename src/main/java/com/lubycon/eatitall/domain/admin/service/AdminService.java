@@ -1,6 +1,7 @@
 package com.lubycon.eatitall.domain.admin.service;
 
 import static com.lubycon.eatitall.common.util.MessageUtils.MSG_CURATION_NOT_FOUND;
+import static com.lubycon.eatitall.common.util.MessageUtils.MSG_INVALID_MENU_INPUT;
 import static com.lubycon.eatitall.common.util.MessageUtils.MSG_MATERIAL_NOT_FOUND;
 import static com.lubycon.eatitall.common.util.MessageUtils.MSG_RESTAURANT_NOT_FOUND;
 
@@ -14,6 +15,7 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.CopyObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.lubycon.eatitall.common.exception.InvalidRequestException;
 import com.lubycon.eatitall.common.exception.NotFoundException;
 import com.lubycon.eatitall.domain.curation.entity.Curation;
 import com.lubycon.eatitall.domain.curation.entity.Curation.CurationBuilder;
@@ -21,6 +23,8 @@ import com.lubycon.eatitall.domain.curation.repository.CurationJpaRepository;
 import com.lubycon.eatitall.domain.material.repository.MaterialJpaRepository;
 import com.lubycon.eatitall.domain.menu.entity.Material;
 import com.lubycon.eatitall.domain.menu.entity.Material.MaterialBuilder;
+import com.lubycon.eatitall.domain.menu.entity.Menu;
+import com.lubycon.eatitall.domain.menu.repository.MenuJpaRepository;
 import com.lubycon.eatitall.domain.restaurant.entity.CurationRestaurant;
 import com.lubycon.eatitall.domain.restaurant.entity.CurationRestaurant.CurationRestaurantBuilder;
 import com.lubycon.eatitall.domain.restaurant.entity.Restaurant;
@@ -58,6 +62,7 @@ public class AdminService {
   private final CurationJpaRepository curationJpaRepository;
   private final CurationRestaurantJpaRepository curationRestaurantJpaRepository;
   private final MaterialJpaRepository materialJpaRepository;
+  private final MenuJpaRepository menuJpaRepository;
 
   @Value("${google.spreadSheets.apiKey}")
   private String apiKey;
@@ -104,6 +109,8 @@ public class AdminService {
     RestaurantBuilder restaurantBuilder = Restaurant.builder();
     KakaoMapBuilder kakaoMapBuilder = KakaoMap.builder();
     String thumbnailImageUrl = null;
+    String[] menus = new String[3];
+    Long restaurantId = null;
     for (String column : restaurant) {
       if (columnIndex == 1) {
         restaurantBuilder.name(column);
@@ -131,6 +138,12 @@ public class AdminService {
         Material material = materialJpaRepository.findByName(column)
             .orElseThrow(() -> new NotFoundException(MSG_MATERIAL_NOT_FOUND));
         restaurantBuilder.materialId(material.getId());
+      } else if (columnIndex == 10) {
+        menus[0] = column;
+      } else if (columnIndex == 11) {
+        menus[1] = column;
+      } else if (columnIndex == 12) {
+        menus[2] = column;
       } else if (columnIndex == 13) {
         restaurantBuilder.isHidden(Integer.parseInt(column));
         Restaurant restaurantResult = updateOrSaveRestaurant(isDuplicate, selectedRestaurant,
@@ -139,7 +152,7 @@ public class AdminService {
           restaurantResult.updateThumbnailImageUrl(null);
           break;
         }
-        Long restaurantId = restaurantResult.getId();
+        restaurantId = restaurantResult.getId();
         uploadImageToS3(restaurantId, thumbnailImageUrl, "restaurant/");
         restaurantResult
             .updateThumbnailImageUrl("/images/restaurant/" + restaurantResult.getId() + ".jpg");
@@ -147,6 +160,42 @@ public class AdminService {
       }
       columnIndex++;
     }
+    updateOrSaveMenu(menus, restaurantId);
+  }
+
+  private void updateOrSaveMenu(String[] menus, Long restaurantId) {
+    for (int i = 0; i < 3; i++) {
+      String column = menus[i];
+      String[] menuArray = column.split("/");
+
+      if (!ObjectUtils.isEmpty(column) && menuArray.length != 2) {
+        throw new InvalidRequestException(MSG_INVALID_MENU_INPUT);
+      }
+
+      Optional<Menu> findMenu = menuJpaRepository
+          .findByRestaurantIdAndSequenceNumber(restaurantId, i);
+
+      if (ObjectUtils.isEmpty(column)) {
+        findMenu.ifPresent(menu -> {
+          menu.updateIsHidden(1);
+        });
+      } else {
+        String name = menuArray[0].trim();
+        int price = Integer.parseInt(menuArray[1].trim());
+        Menu buildMenu = Menu.builder()
+            .restaurantId(restaurantId)
+            .name(name)
+            .price(price)
+            .sequenceNumber(i)
+            .build();
+        findMenu.ifPresentOrElse(menu -> {
+          menu.updateMenu(buildMenu);
+        }, () -> {
+          menuJpaRepository.save(buildMenu);
+        });
+      }
+    }
+
   }
 
   private void uploadImageToS3(Long restaurantId, String imageUrl, String imageDir) {

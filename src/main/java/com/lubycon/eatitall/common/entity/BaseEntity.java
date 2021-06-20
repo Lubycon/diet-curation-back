@@ -28,7 +28,7 @@ public abstract class BaseEntity {
   @Column(nullable = true, length = 30)
   private String updatedIp;
 
-  private int sequenceNumber;
+  public int sequenceNumber;
 
   public int isHidden;
 

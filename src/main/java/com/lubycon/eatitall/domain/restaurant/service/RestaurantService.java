@@ -58,7 +58,7 @@ public class RestaurantService {
         .orElseThrow(() -> new NotFoundException(MSG_RESTAURANT_NOT_FOUND));
     List<CurationDto> curationDtos = curationRestaurantQueryRepository
         .findCurationsByRestaurantId(restaurantId);
-    List<MenuDto> menuDtos = menuJpaRepository.findMenusByRestaurantId(restaurantId);
+    List<MenuDto> menuDtos = menuJpaRepository.findMenusByRestaurantIdAndIsHidden(restaurantId, 0);
 
     ModelMapper modelMapper = new ModelMapper();
     RestaurantDetailResponse restaurantDetailResponse = modelMapper

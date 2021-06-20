@@ -34,11 +34,22 @@ public class Menu extends BaseEntity {
   private Integer price;
 
   @Builder
-  public Menu(Long restaurantId, String name, String description, Integer price) {
+  public Menu(Long restaurantId, String name, String description, Integer price, int sequenceNumber) {
     this.setCreatedIp(userIp());
     this.restaurantId = restaurantId;
     this.name = name;
     this.description = description;
     this.price = price;
+    this.sequenceNumber = sequenceNumber;
+  }
+
+  public void updateMenu(Menu menu) {
+    this.name = menu.name;
+    this.price = menu.price;
+    this.isHidden = 0;
+  }
+
+  public void updateIsHidden(int isHidden) {
+    this.isHidden = isHidden;
   }
 }
