@@ -63,7 +63,8 @@ public class RestaurantService {
     }
     List<CurationDto> curationDtos = curationRestaurantQueryRepository
         .findCurationsByRestaurantId(restaurantId);
-    List<MenuDto> menuDtos = menuJpaRepository.findMenusByRestaurantIdAndIsHidden(restaurantId, 0);
+    List<MenuDto> menuDtos = menuJpaRepository
+        .findMenusByRestaurantIdAndIsHiddenOrderBySequenceNumber(restaurantId, 0);
 
     ModelMapper modelMapper = new ModelMapper();
     RestaurantDetailResponse restaurantDetailResponse = modelMapper

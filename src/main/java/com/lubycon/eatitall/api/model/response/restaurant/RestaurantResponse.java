@@ -21,6 +21,9 @@ public class RestaurantResponse {
   private String name;
 
   @Nullable
+  private String description;
+
+  @Nullable
   private String[] hashtags;
 
   @Nullable

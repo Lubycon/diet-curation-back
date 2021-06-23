@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MenuJpaRepository extends JpaRepository<Menu, Long> {
 
-  List<MenuDto> findMenusByRestaurantIdAndIsHidden(Long restaurantId, int isHidden);
+  List<MenuDto> findMenusByRestaurantIdAndIsHiddenOrderBySequenceNumber(Long restaurantId, int isHidden);
 
   Optional<Menu> findByRestaurantIdAndSequenceNumber(Long restaurantId, int sequenceNumber);
 }

@@ -18,6 +18,7 @@ public class RestaurantQueryRepository extends AbstractQueryRepository {
             restaurant.id,
             restaurant.name,
             restaurant.description,
+            restaurant.hashtags,
             restaurant.thumbnailImageUrl,
             restaurant.address,
             restaurant.kakaoMap.id,

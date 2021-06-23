@@ -54,6 +54,7 @@ public class RestaurantDetailDto {
   public RestaurantDetailDto(@NotNull Long id,
       @NotNull String name,
       @Nullable String description,
+      @Nullable String hashtags,
       @Nullable String thumbnailImageUrl,
       @NotNull String address,
       @Nullable Long kakaoMapId,
@@ -65,6 +66,7 @@ public class RestaurantDetailDto {
     this.id = id;
     this.name = name;
     this.description = description;
+    this.hashtags = hashtags;
     this.thumbnailImageUrl = thumbnailImageUrl;
     this.address = address;
     this.kakaoMapId = kakaoMapId;
